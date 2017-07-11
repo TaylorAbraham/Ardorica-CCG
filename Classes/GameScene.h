@@ -24,6 +24,8 @@ public:
     int life2;
     std::vector<Card*> deck1;
     std::vector<Card*> deck2;
+    std::vector<Card*> hand1;
+    std::vector<Card*> hand2;
     std::vector<Card*> field1;
     std::vector<Card*> field2;
 };

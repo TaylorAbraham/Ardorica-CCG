@@ -45,6 +45,8 @@ void Game::menuCloseCallback(Ref* pSender)
     // TODO: Look into unique pointers
     std::for_each(deck1.begin(), deck1.end(), delete_pointed_to<base>);
     std::for_each(deck2.begin(), deck2.end(), delete_pointed_to<base>);
+    std::for_each(hand1.begin(), hand1.end(), delete_pointed_to<base>);
+    std::for_each(hand2.begin(), hand2.end(), delete_pointed_to<base>);
     std::for_each(field1.begin(), field1.end(), delete_pointed_to<base>);
     std::for_each(field2.begin(), field2.end(), delete_pointed_to<base>);
     // Close the cocos2d-x game scene and quit the application

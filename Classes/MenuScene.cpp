@@ -1,5 +1,7 @@
 #include "MenuScene.h"
 #include "SimpleAudioEngine.h"
+#include "../cocos2dx/platform/android/jni/MessageJni.h"
+#include "tinyxml2.h"
 
 USING_NS_CC;
 
@@ -14,6 +16,8 @@ bool Menu::init()
     if (!Scene::init()) {
         return false;
     }
+
+    loadCardDatabase();
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -30,12 +34,39 @@ bool Menu::init()
     return true;
 }
 
+// Creates a local card database from the card database XML file
+void loadCardDatabase()
+{
+    tinyxml2::XMLDocument xml_doc;
+
+    tinyxml2::XMLError eResult = xml_doc.LoadFile("../Data/CardDatabase.xml");
+    if(eResult != tinyxml2::XML_SUCCESS) {
+        showMessageBoxJNI("Error loading database or database could not be found.",
+                          "Database not loaded!");
+        return;
+    }
+
+    tinyxml2::XMLNode* root = xml_doc.FirstChildElement("ardorica_card_database");
+    if(root == nullptr) {
+        showMessageBoxJNI("Database XML file is invalid or corrupt.",
+                          "Unreadable database");
+        return;
+    }
+
+    tinyxml2::XMLElement* card = root->FirstChildElement("card");
+    std::string cardName;
+    int cardStr, cardTou;
+    while(card != nullptr) {
+        cardName = card->FirstChildElement("name");
+        cardStr = card->FirstChildElement("strength");
+        cardTou = card->FirstChildElement("toughness");
+        cardClk = card->FirstChildElement("clock");
+        Global::cards.insert(std::make_pair(cardName, new Card(cardStr, cardTou, cardClk)));
+    }
+}
 
 void Menu::menuCloseCallback(Ref* pSender)
 {
-    // Free objects referenced by vectors of pointers
-    std::for_each(cards.begin(), cards.end(), delete_pointed_to<base>);
-
     // Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 

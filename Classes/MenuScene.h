@@ -17,7 +17,8 @@ public:
     CREATE_FUNC(Menu);
 
     cocos2d::Sprite *mySprite;
-    std::map<std::string, Card*> cards;
+private:
+    void loadCardDatabase();
 };
 
 #endif // __MENU_SCENE_H__

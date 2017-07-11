@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "MenuScene.h"
 
 #if USE_AUDIO_ENGINE && USE_SIMPLE_AUDIO_ENGINE
 #error "Don't use AudioEngine and SimpleAudioEngine at the same time. Please just select one in your game!"
@@ -85,7 +85,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     register_all_packages();
 
     // Create a scene. It's an autorelease object
-    auto scene = HelloWorld::createScene();
+    auto scene = Menu::createScene();
 
     // Run
     director->runWithScene(scene);
