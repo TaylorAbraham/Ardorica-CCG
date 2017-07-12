@@ -17,6 +17,8 @@ Card::Card(int s, int t, int c, std::str e)
 
 
 /* Actions and abilities */
+
+// On fighter attack
 void attack(Card* enemy)
 {
     // Check if effect includes an 'on attack' effect
@@ -29,7 +31,36 @@ void attack(Card* enemy)
         // No enemy, so attack opponent directly
     } else {
         // Attack enemy fighter
-        enemy.setHealth
+        int dmgModifier = 0;
+        std::regex shieldReg("shield\(([+-]?\d+)\)");
+        std::smatch regMatch;
+        if(std::regex_match(e, regMatch, statChangeReg)) {
+            // Enemy has a 'shield' effect, so reduce damage dealt
+            dmgModifier = -1 * std::stoi(regMatch[0].str());
+        }
+        // All damage modifiers have been calculated. Now deal the damage.
+        if(enemy->loseHealth(getStrength() + dmgModifier)) {
+            // Enemy died from this attack, so glory ability triggers
+            glory();
+        }
+    }
+}
+
+// When a fighter kills an enemy
+void glory() {
+    // Check if effect includes a 'glory' effect
+    if(effect.find("glory()") != std::string::npos) {
+        // It does, so run the effect text after the 'glory()->' trigger text
+        doEffect(effect.substr(effect.find("->") + 1));
+    }
+}
+
+// When this fighter dies
+void death() {
+    // Check if effect includes a 'death' effect
+    if(effect.find("death()") != std::string::npos) {
+        // It does, so run the effect text after the 'death()->' trigger text
+        doEffect(effect.substr(effect.find("->") + 1));
     }
 }
 
@@ -45,13 +76,14 @@ void Card::doEffect(e) {
         modifyStrength(std::stoi(regMatch[0].str()));
         modifyToughness(std::stoi(regMatch[1].str()));
     } else {
-        MessageBox("The card database was not set up correctly.",
-                          "Invalid card effect!");
+        // No effect detected, but an effect was expected. Database error.
+        MessageBox("The card database was not set up correctly.", "Invalid card effect!");
     }
 }
 
 
 /* Getters, setters, and modifiers */
+
 int Card::getStrength()
 {
     return strength;

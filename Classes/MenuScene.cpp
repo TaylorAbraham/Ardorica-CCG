@@ -3,6 +3,10 @@
 #include "Global.h"
 #include "tinyxml2/tinyxml2.h"
 
+#ifndef XMLCheckResult
+	#define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { std::string msg="Error: %i\n", a_eResult; msgMessageBox(); return a_eResult; }
+#endif
+
 USING_NS_CC;
 
 Scene* MainMenu::createScene()
@@ -41,15 +45,15 @@ void MainMenu::loadCardDatabase()
 
     tinyxml2::XMLError eResult = xml_doc.LoadFile("../Data/CardDatabase.xml");
     if(eResult != tinyxml2::XML_SUCCESS) {
-        MessageBox("Error loading database or database could not be found.",
-                          "Database not loaded!");
+        std::string error = "Error loading database. Error code: " + std::to_string(eResult);
+        MessageBox(error, "Database not loaded!");
         return;
     }
 
     tinyxml2::XMLNode* root = xml_doc.FirstChildElement("ardorica_card_database");
     if(root == nullptr) {
-        MessageBox("Database XML file is invalid or corrupt.",
-                          "Unreadable database");
+        std::string error = "Database XML file is invalid or corrupt. Error code: " + std::to_string(eResult);
+        MessageBox(error, "Unreadable database");
         return;
     }
 

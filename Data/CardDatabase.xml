@@ -64,20 +64,6 @@
         <effect>glory()->dream(0)</effect>
     </card>
     <card>
-        <name>Gentle Giant</name>
-        <strength>6</strength>
-        <toughness>6</toughness>
-        <clock>4</clock>
-        <effect>oPow(=2)->statChange(-2,0)</effect>
-    </card>
-    <card>
-        <name>Vengeful Vampire</name>
-        <strength>1</strength>
-        <toughness>3</toughness>
-        <clock>2</clock>
-        <effect>oPow(=4)->statChange(3,0)</effect>
-    </card>
-    <card>
         <name>Furious Rock</name>
         <strength>0</strength>
         <toughness>15</toughness>
@@ -96,13 +82,6 @@
         <strength>0</strength>
         <toughness>4</toughness>
         <clock>2</clock>
-        <effect>attack()->statrelally(1,0)</effect>
-    </card>
-    <card>
-        <name>Heart-Piercer Soldier</name>
-        <strength>3</strength>
-        <toughness>1</toughness>
-        <clock>1</clock>
-        <effect>opposed()->statrel(-2,0)</effect>
+        <effect>attack()->statChangeAlly(1,0)</effect>
     </card>
 </ardorica_card_database>
