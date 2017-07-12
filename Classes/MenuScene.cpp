@@ -1,17 +1,17 @@
 #include "MenuScene.h"
 #include "SimpleAudioEngine.h"
-#include "../cocos2dx/platform/android/jni/MessageJni.h"
-#include "tinyxml2.h"
+#include "Global.h"
+#include "tinyxml2/tinyxml2.h"
 
 USING_NS_CC;
 
-Scene* Menu::createScene()
+Scene* MainMenu::createScene()
 {
-    return Menu::create();
+    return MainMenu::create();
 }
 
 // Initialize instance
-bool Menu::init()
+bool MainMenu::init()
 {
     if (!Scene::init()) {
         return false;
@@ -35,37 +35,38 @@ bool Menu::init()
 }
 
 // Creates a local card database from the card database XML file
-void loadCardDatabase()
+void MainMenu::loadCardDatabase()
 {
     tinyxml2::XMLDocument xml_doc;
 
     tinyxml2::XMLError eResult = xml_doc.LoadFile("../Data/CardDatabase.xml");
     if(eResult != tinyxml2::XML_SUCCESS) {
-        showMessageBoxJNI("Error loading database or database could not be found.",
+        MessageBox("Error loading database or database could not be found.",
                           "Database not loaded!");
         return;
     }
 
     tinyxml2::XMLNode* root = xml_doc.FirstChildElement("ardorica_card_database");
     if(root == nullptr) {
-        showMessageBoxJNI("Database XML file is invalid or corrupt.",
+        MessageBox("Database XML file is invalid or corrupt.",
                           "Unreadable database");
         return;
     }
 
     tinyxml2::XMLElement* card = root->FirstChildElement("card");
     std::string cardName;
-    int cardStr, cardTou;
+    int cardStr, cardTou, cardClk, iOutInt;
     while(card != nullptr) {
-        cardName = card->FirstChildElement("name");
-        cardStr = card->FirstChildElement("strength");
-        cardTou = card->FirstChildElement("toughness");
-        cardClk = card->FirstChildElement("clock");
-        Global::cards.insert(std::make_pair(cardName, new Card(cardStr, cardTou, cardClk)));
+        cardName = card->FirstChildElement("name")->GetText();
+        cardName = "test";
+        cardStr = card->FirstChildElement("strength")->QueryIntText(&iOutInt);
+        cardTou = card->FirstChildElement("toughness")->QueryIntText(&iOutInt);
+        cardClk = card->FirstChildElement("clock")->QueryIntText(&iOutInt);
+        //Global::cards.insert(std::make_pair(cardName, new Card(cardStr, cardTou, cardClk)));
     }
 }
 
-void Menu::menuCloseCallback(Ref* pSender)
+void MainMenu::menuCloseCallback(Ref* pSender)
 {
     // Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();

@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-class Menu : public cocos2d::Scene
+class MainMenu : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
@@ -14,7 +14,7 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
 
     // Implement the "static create()" method manually
-    CREATE_FUNC(Menu);
+    CREATE_FUNC(MainMenu);
 
     cocos2d::Sprite *mySprite;
 private:

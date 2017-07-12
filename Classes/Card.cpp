@@ -1,6 +1,5 @@
 #include "Card.h"
 #include <regex>
-#include "../cocos2dx/platform/android/jni/MessageJni.h"
 
 // Constructors
 Card::Card(int s, int t, int c)
@@ -35,7 +34,7 @@ void attack(Card* enemy)
 }
 
 // Run a card effect
-void doEffect(e) {
+void Card::doEffect(e) {
     // Regex that checks for statChange(X,Y)
     // EX: statChange(2,-1)
     std::regex statChangeReg("statChange\(([+-]?\d+),([+-]?\d+)\)");
@@ -46,7 +45,7 @@ void doEffect(e) {
         modifyStrength(std::stoi(regMatch[0].str()));
         modifyToughness(std::stoi(regMatch[1].str()));
     } else {
-        showMessageBoxJNI("The card database was not set up correctly.",
+        MessageBox("The card database was not set up correctly.",
                           "Invalid card effect!");
     }
 }
