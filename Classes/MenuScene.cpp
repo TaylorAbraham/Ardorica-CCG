@@ -3,10 +3,6 @@
 #include "Global.h"
 #include "tinyxml2/tinyxml2.h"
 
-#ifndef XMLCheckResult
-	#define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { std::string msg="Error: %i\n", a_eResult; msgMessageBox(); return a_eResult; }
-#endif
-
 USING_NS_CC;
 
 Scene* MainMenu::createScene()
@@ -26,21 +22,13 @@ bool MainMenu::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    // Initialize and place sample card sprite
-    mySprite = Sprite::create("test-card.png");
-    mySprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-    this->addChild(mySprite);
-
-    // Move sample sprite
-    auto action = MoveBy::create(3, Vec2(100, 0));
-    mySprite->runAction(action);
-
     return true;
 }
 
 // Creates a local card database from the card database XML file
 void MainMenu::loadCardDatabase()
 {
+    std::map<std::string, std::unique_ptr<Card>> cards;
     tinyxml2::XMLDocument xml_doc;
 
     tinyxml2::XMLError eResult = xml_doc.LoadFile("../Data/CardDatabase.xml");
@@ -58,15 +46,16 @@ void MainMenu::loadCardDatabase()
     }
 
     tinyxml2::XMLElement* card = root->FirstChildElement("card");
-    std::string cardName;
+    std::string cardName, cardSpriteName, cardEffect;
     int cardStr, cardTou, cardClk, iOutInt;
     while(card != nullptr) {
         cardName = card->FirstChildElement("name")->GetText();
-        cardName = "test";
         cardStr = card->FirstChildElement("strength")->QueryIntText(&iOutInt);
         cardTou = card->FirstChildElement("toughness")->QueryIntText(&iOutInt);
         cardClk = card->FirstChildElement("clock")->QueryIntText(&iOutInt);
-        //Global::cards.insert(std::make_pair(cardName, new Card(cardStr, cardTou, cardClk)));
+        cardEffect = card->FirstChildElement("effect")->GetText();
+        cardSpriteName = card->FirstChildElement("image")->GetText();
+        Global::cards.insert(std::make_pair(cardName, new Card(cardStr, cardTou, cardClk, cardEffect, cardSpriteName)));
     }
 }
 

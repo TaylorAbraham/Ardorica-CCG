@@ -5,12 +5,6 @@ USING_NS_CC;
 
 #define PTM_RATIO 32 // Pixel to metre ratio
 
-// Test values. These will be set up by the deck loading mechanic added later
-deckSize1 = 5;
-deckSize2 = 5;
-life1 = 30;
-life2 = 30;
-
 Scene* Game::createScene()
 {
     return Game::create();

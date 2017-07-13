@@ -6,8 +6,7 @@
 class Global
 {
 public:
-    // TODO: Use unique pointers to stop leaks from object pointers
-    static std::map<std::string, Card*> cards;
+    extern std::map<std::string, std::unique_ptr<Card>> cards;
 };
 
 #endif // __GLOBAL_H__

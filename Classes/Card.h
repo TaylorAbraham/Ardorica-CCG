@@ -1,13 +1,10 @@
 #ifndef __CARD_H__
 #define __CARD_H__
 
-#include "cocos2d.h"
-
-class Card : public cocos2d::CCNode
+class Card
 {
 public:
-    Card(int s, int t, int c);
-    Card(int s, int t, int c, std::string e);
+    Card(int s, int t, int c, std::string e, std::string sn);
 
     void attack();
     void glory();
@@ -25,6 +22,8 @@ public:
     void decClock();
     std::string getEffect();
     void setEffect(std::string newEffect);
+    std::string getSpriteName();
+    void setSpriteName(std::string newSpriteName);
     int getHealth();
     bool setHealth(int newHealth);
     bool loseHealth(int damage);
@@ -34,6 +33,7 @@ private:
     int toughness;
     int clockVal;
     std::string effect;
+    std::string spriteName;
     int health;
     void doEffect(std::string e);
 };

@@ -1,18 +1,14 @@
 #include "Card.h"
 #include <regex>
 
-// Constructors
-Card::Card(int s, int t, int c)
+// Constructor
+Card::Card(int s, int t, int c, std::str e, std::string sn)
 {
     setStrength(s);
     setToughness(t);
     setClock(c);
-}
-
-Card::Card(int s, int t, int c, std::str e)
-{
-    Card(s, t, c);
     setEffect(e);
+    setSprite(sn);
 }
 
 
@@ -53,6 +49,11 @@ void glory() {
         // It does, so run the effect text after the 'glory()->' trigger text
         doEffect(effect.substr(effect.find("->") + 1));
     }
+}
+
+// When this fighter comes into play
+void enter() {
+
 }
 
 // When this fighter dies
@@ -141,6 +142,16 @@ std::string Card::getEffect()
 void Card::setEffect(std::string newEffect)
 {
     effect = newEffect;
+}
+
+std::string Card::getSpriteName()
+{
+    return spriteName;
+}
+
+void Card::setSpriteName(std::string newSpriteName)
+{
+    spriteName = newSpriteName;
 }
 
 void Card::decClock()
