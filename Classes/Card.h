@@ -6,7 +6,7 @@ class Card
 public:
     Card(int s, int t, int c, std::string e, std::string sn);
 
-    void attack();
+    void attack(Card* enemy);
     void glory();
     void enter();
     void death();

@@ -6,7 +6,8 @@
 class Global
 {
 public:
-    extern std::map<std::string, std::unique_ptr<Card>> cards;
+    static std::map<std::string, std::unique_ptr<Card>> cards;
+private:
 };
 
 #endif // __GLOBAL_H__

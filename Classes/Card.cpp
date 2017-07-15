@@ -2,20 +2,20 @@
 #include <regex>
 
 // Constructor
-Card::Card(int s, int t, int c, std::str e, std::string sn)
+Card::Card(int s, int t, int c, std::string e, std::string sn)
 {
     setStrength(s);
     setToughness(t);
     setClock(c);
     setEffect(e);
-    setSprite(sn);
+    setSpriteName(sn);
 }
 
 
 /* Actions and abilities */
 
 // On fighter attack
-void attack(Card* enemy)
+void Card::attack(Card* enemy)
 {
     // Check if effect includes an 'on attack' effect
     if(effect.find("attack()") != std::string::npos) {
@@ -25,14 +25,15 @@ void attack(Card* enemy)
     // Attack logic
     if(enemy == nullptr) {
         // No enemy, so attack opponent directly
+        // TODO
     } else {
         // Attack enemy fighter
         int dmgModifier = 0;
-        std::regex shieldReg("shield\(([+-]?\d+)\)");
+        std::regex shieldReg("shield(([+-]?[0-9]+))");
         std::smatch regMatch;
-        if(std::regex_match(e, regMatch, statChangeReg)) {
+        if(std::regex_match(enemy->getEffect(), regMatch, shieldReg)) {
             // Enemy has a 'shield' effect, so reduce damage dealt
-            dmgModifier = -1 * std::stoi(regMatch[0].str());
+            dmgModifier = -1 * std::atoi(regMatch[0].str().c_str());
         }
         // All damage modifiers have been calculated. Now deal the damage.
         if(enemy->loseHealth(getStrength() + dmgModifier)) {
@@ -43,7 +44,7 @@ void attack(Card* enemy)
 }
 
 // When a fighter kills an enemy
-void glory() {
+void Card::glory() {
     // Check if effect includes a 'glory' effect
     if(effect.find("glory()") != std::string::npos) {
         // It does, so run the effect text after the 'glory()->' trigger text
@@ -52,12 +53,12 @@ void glory() {
 }
 
 // When this fighter comes into play
-void enter() {
+void Card::enter() {
 
 }
 
 // When this fighter dies
-void death() {
+void Card::death() {
     // Check if effect includes a 'death' effect
     if(effect.find("death()") != std::string::npos) {
         // It does, so run the effect text after the 'death()->' trigger text
@@ -66,19 +67,19 @@ void death() {
 }
 
 // Run a card effect
-void Card::doEffect(e) {
+void Card::doEffect(std::string e) {
     // Regex that checks for statChange(X,Y)
     // EX: statChange(2,-1)
-    std::regex statChangeReg("statChange\(([+-]?\d+),([+-]?\d+)\)");
+    std::regex statChangeReg("statChange(([+-]?[0-9]+),([+-]?[0-9]+))");
     std::smatch regMatch;
 
     if(std::regex_match(e, regMatch, statChangeReg)) {
         // statChange(X,Y) - Adjust strength and toughness values (relative)
-        modifyStrength(std::stoi(regMatch[0].str()));
-        modifyToughness(std::stoi(regMatch[1].str()));
+        modifyStrength(std::atoi(regMatch[0].str().c_str()));
+        modifyToughness(std::atoi(regMatch[1].str().c_str()));
     } else {
         // No effect detected, but an effect was expected. Database error.
-        MessageBox("The card database was not set up correctly.", "Invalid card effect!");
+        cocos2d::MessageBox("The card database was not set up correctly.", "Invalid card effect!");
     }
 }
 
@@ -134,6 +135,11 @@ void Card::setClock(int newClock)
     }
 }
 
+void Card::decClock()
+{
+  setClock(getClock() - 1);
+}
+
 std::string Card::getEffect()
 {
     return effect;
@@ -154,11 +160,6 @@ void Card::setSpriteName(std::string newSpriteName)
     spriteName = newSpriteName;
 }
 
-void Card::decClock()
-{
-    setClock(getClock() - 1);
-}
-
 int Card::getHealth()
 {
     return health;
@@ -168,7 +169,7 @@ int Card::getHealth()
 bool Card::setHealth(int newHealth)
 {
     health = newHealth;
-    if(health <= 0)
+    if(health <= 0) {
         death();
         return true;
     }

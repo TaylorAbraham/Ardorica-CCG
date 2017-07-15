@@ -1,7 +1,9 @@
 #include "MenuScene.h"
 #include "SimpleAudioEngine.h"
 #include "Global.h"
+#include "Card.cpp"
 #include "tinyxml2/tinyxml2.h"
+#include <sstream>
 
 USING_NS_CC;
 
@@ -28,20 +30,24 @@ bool MainMenu::init()
 // Creates a local card database from the card database XML file
 void MainMenu::loadCardDatabase()
 {
-    std::map<std::string, std::unique_ptr<Card>> cards;
-    tinyxml2::XMLDocument xml_doc;
-
-    tinyxml2::XMLError eResult = xml_doc.LoadFile("../Data/CardDatabase.xml");
+    //std::map<std::string, std::unique_ptr<Card>> cards;
+    std::map<std::string, std::unique_ptr<Card>> cardz;
+    tinyxml2::XMLDocument xmlDoc;
+    tinyxml2::XMLError eResult = xmlDoc.LoadFile("CardDatabase.xml");
     if(eResult != tinyxml2::XML_SUCCESS) {
-        std::string error = "Error loading database. Error code: " + std::to_string(eResult);
-        MessageBox(error, "Database not loaded!");
+        std::ostringstream oss;
+        oss << eResult;
+        std::string error = "Error loading database. Error code: " + oss.str();
+        MessageBox(error.c_str(), "Database not loaded!");
+        //MessageBox(eResult, "Database not loaded!");
         return;
     }
 
-    tinyxml2::XMLNode* root = xml_doc.FirstChildElement("ardorica_card_database");
+    tinyxml2::XMLNode* root = xmlDoc.FirstChildElement("ardorica_card_database");
     if(root == nullptr) {
-        std::string error = "Database XML file is invalid or corrupt. Error code: " + std::to_string(eResult);
-        MessageBox(error, "Unreadable database");
+        //std::string error = "Database XML file is invalid or corrupt. Error code: " + std::to_string(eResult);
+        //MessageBox(xmlDoc.GetErrorStr1(), "Invalid database!");
+        //MessageBox(xmlDoc.GetErrorStr2(), "Invalid database!");
         return;
     }
 
@@ -55,7 +61,7 @@ void MainMenu::loadCardDatabase()
         cardClk = card->FirstChildElement("clock")->QueryIntText(&iOutInt);
         cardEffect = card->FirstChildElement("effect")->GetText();
         cardSpriteName = card->FirstChildElement("image")->GetText();
-        Global::cards.insert(std::make_pair(cardName, new Card(cardStr, cardTou, cardClk, cardEffect, cardSpriteName)));
+        cardz.insert(std::make_pair(cardName, std::unique_ptr<Card>(new Card(cardStr, cardTou, cardClk, cardEffect, cardSpriteName))));
     }
 }
 
