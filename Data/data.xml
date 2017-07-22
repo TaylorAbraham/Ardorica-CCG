@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ardorica_card_database version="1.2">
+    <card>
+        <name>Village Protector</name>
+        <strength>2</strength>
+        <toughness>3</toughness>
+        <clock>3</clock>
+        <effect>attack()->statChange(0,1)</effect>
+        <image>village-protector.png</image>
+    </card>
+    <card>
+        <name>Gloryseeker</name>
+        <strength>3</strength>
+        <toughness>3</toughness>
+        <clock>3</clock>
+        <effect>glory()->statChange(2,0)</effect>
+        <image></image>
+    </card>
+    <card>
+        <name>Somnius Dreamer</name>
+        <strength>1</strength>
+        <toughness>4</toughness>
+        <clock>5</clock>
+        <effect>attack()->dream(2)</effect>
+        <image></image>
+    </card>
+    <card>
+        <name>Somnius Striker</name>
+        <strength>4</strength>
+        <toughness>4</toughness>
+        <clock>4</clock>
+        <effect>glory()->dream(0)</effect>
+        <image></image>
+    </card>
+    <card>
+        <name>Furious Rock</name>
+        <strength>0</strength>
+        <toughness>15</toughness>
+        <clock>3</clock>
+        <effect>glory()->statChange(10,0)</effect>
+        <image></image>
+    </card>
+    <card>
+        <name>Dragon of Aegis</name>
+        <strength>6</strength>
+        <toughness>8</toughness>
+        <clock>8</clock>
+        <effect>shield(2)</effect>
+        <image></image>
+    </card>
+    <card>
+        <name>Ardorican Servant</name>
+        <strength>2</strength>
+        <toughness>1</toughness>
+        <clock>1</clock>
+        <effect></effect>
+        <image></image>
+    </card>
+    <card>
+        <name>Ardorican Soldier</name>
+        <strength>3</strength>
+        <toughness>2</toughness>
+        <clock>2</clock>
+        <effect></effect>
+        <image></image>
+    </card>
+    <card>
+        <name>Ardorican Sergeant</name>
+        <strength>4</strength>
+        <toughness>3</toughness>
+        <clock>3</clock>
+        <effect></effect>
+        <image></image>
+    </card>
+    <card>
+        <name>Ardorican Veteran</name>
+        <strength>5</strength>
+        <toughness>4</toughness>
+        <clock>4</clock>
+        <effect></effect>
+        <image></image>
+    </card>
+    <card>
+        <name>Ardorican Demon</name>
+        <strength>7</strength>
+        <toughness>7</toughness>
+        <clock>6</clock>
+        <effect></effect>
+        <image></image>
+    </card>
+</ardorica_card_database>

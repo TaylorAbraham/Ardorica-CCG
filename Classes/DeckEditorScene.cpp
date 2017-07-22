@@ -20,39 +20,39 @@ bool DeckEditor::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	// Deck editor title field
-	CCLabelTTF* title_label=CCLabelTTF::create("Deck Editor", "Arial.fnt", 20);
-	title_label->setPosition(ccp(200,200));
-	this->addChild(title_label);
+  	// Deck editor title field
+  	CCLabelTTF* title_label=CCLabelTTF::create("Deck Editor", "Arial.fnt", 20);
+  	title_label->setPosition(ccp(200,200));
+  	this->addChild(title_label);
 
-	// Deck name input field
-	std::string deckNameSprite = "test-card.png";
-	_deckName = ui::EditBox::create(editBoxSize, ui::Scale9Sprite::create(deckNameSprite));
-	_deckName->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*3/4));
-	_deckName->setFontName("Paint Boy");
-	_deckName->setFontSize(25);
-	_deckName->setFontColor(Color3B::RED);
-	_deckName->setPlaceHolder("Name:");
-	_deckName->setPlaceholderFontColor(Color3B::WHITE);
-	_deckName->setMaxLength(8);
-	_deckName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-	_deckName->setDelegate(this);
-	this->addChild(_deckName);
+  	// Deck name input field
+  	std::string deckNameSprite = "test-card.png";
+  	_deckName = ui::EditBox::create(editBoxSize, ui::Scale9Sprite::create(deckNameSprite));
+  	_deckName->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*3/4));
+  	_deckName->setFontName("Paint Boy");
+  	_deckName->setFontSize(25);
+  	_deckName->setFontColor(Color3B::RED);
+  	_deckName->setPlaceHolder("Name:");
+  	_deckName->setPlaceholderFontColor(Color3B::WHITE);
+  	_deckName->setMaxLength(8);
+  	_deckName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
+  	_deckName->setDelegate(this);
+  	this->addChild(_deckName);
 
-	Vec2 cardPos;
-	Sprite cardSpr;
-	// For each card in the game, create a visualization of it for the deck editor
-	for(Card* card : Global::cards) {
-		std::string spriteSrc;
-		std::map<std::string, Card*>::iterator cIter
-		for(cIter = Global::cards.begin(); cIter != Global::card.end(); cIter++)) {
-			cardSpr = Sprite::create(cIter->second->getSpriteName());
-			// TODO: Card sprite position algorithm
-			cardPos = Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
-			cardSpr->setPosition(cardPos);
-		    this->addChild(cardSpr); // TODO: This might break? Investigate pointer logic
-		}
-	}
+  	Vec2 cardPos;
+  	Sprite cardSpr;
+  	// For each card in the game, create a visualization of it for the deck editor
+  	for(Card* card : Global::cards) {
+    		std::string spriteSrc;
+    		std::map<std::string, Card*>::iterator cIter
+    		for(cIter = Global::cards.begin(); cIter != Global::card.end(); cIter++)) {
+      			cardSpr = Sprite::create(cIter->second->getSpriteName());
+      			// TODO: Card sprite position algorithm
+      			cardPos = Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
+      			cardSpr->setPosition(cardPos);
+      		  this->addChild(cardSpr); // TODO: This might break? Investigate pointer logic
+    		}
+  	}
 
     return true;
 }

@@ -19,10 +19,10 @@ bool MainMenu::init()
         return false;
     }
 
-    loadCardDatabase();
-
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    loadCardDatabase();
 
     return true;
 }
@@ -32,36 +32,44 @@ void MainMenu::loadCardDatabase()
 {
     //std::map<std::string, std::unique_ptr<Card>> cards;
     std::map<std::string, std::unique_ptr<Card>> cardz;
+    //std::string path = FileUtils::getInstance()->getStringFromFile("data.xml");
+    auto fileUtils = FileUtils::getInstance();
+    std::string path = fileUtils->fullPathForFilename(std::string("data.xml"));
+    //reads contents of the file into a string
+    auto xmlData = fileUtils->getStringFromFile(path);
+    MessageBox(path.c_str(), "path.c_str()");
     tinyxml2::XMLDocument xmlDoc;
-    tinyxml2::XMLError eResult = xmlDoc.LoadFile("CardDatabase.xml");
+    MessageBox(xmlData.c_str(), "xmlData.c_str()");
+    tinyxml2::XMLError eResult = xmlDoc.Parse(xmlData.c_str());
     if(eResult != tinyxml2::XML_SUCCESS) {
         std::ostringstream oss;
         oss << eResult;
         std::string error = "Error loading database. Error code: " + oss.str();
         MessageBox(error.c_str(), "Database not loaded!");
-        //MessageBox(eResult, "Database not loaded!");
         return;
     }
 
-    tinyxml2::XMLNode* root = xmlDoc.FirstChildElement("ardorica_card_database");
+    tinyxml2::XMLNode* root = xmlDoc.RootElement();
     if(root == nullptr) {
-        //std::string error = "Database XML file is invalid or corrupt. Error code: " + std::to_string(eResult);
-        //MessageBox(xmlDoc.GetErrorStr1(), "Invalid database!");
-        //MessageBox(xmlDoc.GetErrorStr2(), "Invalid database!");
+        std::ostringstream oss;
+        oss << eResult;
+        std::string error = "Database XML file is invalid or corrupt. Error code: " + oss.str();
+        MessageBox(error.c_str(), "Bad database!");
         return;
     }
 
-    tinyxml2::XMLElement* card = root->FirstChildElement("card");
+    ;
     std::string cardName, cardSpriteName, cardEffect;
     int cardStr, cardTou, cardClk, iOutInt;
-    while(card != nullptr) {
+    for(tinyxml2::XMLElement* card = root->FirstChildElement("card");
+            card != nullptr; card = card->NextSiblingElement("card")) {
         cardName = card->FirstChildElement("name")->GetText();
         cardStr = card->FirstChildElement("strength")->QueryIntText(&iOutInt);
-        cardTou = card->FirstChildElement("toughness")->QueryIntText(&iOutInt);
-        cardClk = card->FirstChildElement("clock")->QueryIntText(&iOutInt);
-        cardEffect = card->FirstChildElement("effect")->GetText();
-        cardSpriteName = card->FirstChildElement("image")->GetText();
-        cardz.insert(std::make_pair(cardName, std::unique_ptr<Card>(new Card(cardStr, cardTou, cardClk, cardEffect, cardSpriteName))));
+        //cardTou = card->FirstChildElement("toughness")->QueryIntText(&iOutInt);
+        //cardClk = card->FirstChildElement("clock")->QueryIntText(&iOutInt);
+        //cardEffect = card->FirstChildElement("effect")->GetText();
+        //cardSpriteName = card->FirstChildElement("image")->GetText();
+        //cardz.insert(std::make_pair(cardName, std::unique_ptr<Card>(new Card(cardStr, cardTou, cardClk, cardEffect, cardSpriteName))));
     }
 }
 
