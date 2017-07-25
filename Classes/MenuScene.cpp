@@ -30,9 +30,8 @@ bool MainMenu::init()
 // Creates a local card database from the card database XML file
 void MainMenu::loadCardDatabase()
 {
-    //std::map<std::string, std::unique_ptr<Card>> cards;
-    std::map<std::string, std::unique_ptr<Card>> cardz;
-    //std::string path = FileUtils::getInstance()->getStringFromFile("data.xml");
+    std::map<std::string, std::unique_ptr<Card>> cardz; // Testing variable, to be replaced by global card map
+    //std::string data = FileUtils::getInstance()->getStringFromFile("data.xml");
     auto fileUtils = FileUtils::getInstance();
     std::string path = fileUtils->fullPathForFilename(std::string("data.xml"));
     //reads contents of the file into a string
@@ -58,7 +57,6 @@ void MainMenu::loadCardDatabase()
         return;
     }
 
-    ;
     std::string cardName, cardSpriteName, cardEffect;
     int cardStr, cardTou, cardClk, iOutInt;
     for(tinyxml2::XMLElement* card = root->FirstChildElement("card");
