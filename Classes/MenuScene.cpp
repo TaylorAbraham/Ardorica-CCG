@@ -63,11 +63,11 @@ void MainMenu::loadCardDatabase()
             card != nullptr; card = card->NextSiblingElement("card")) {
         cardName = card->FirstChildElement("name")->GetText();
         cardStr = card->FirstChildElement("strength")->QueryIntText(&iOutInt);
-        //cardTou = card->FirstChildElement("toughness")->QueryIntText(&iOutInt);
-        //cardClk = card->FirstChildElement("clock")->QueryIntText(&iOutInt);
-        //cardEffect = card->FirstChildElement("effect")->GetText();
-        //cardSpriteName = card->FirstChildElement("image")->GetText();
-        //cardz.insert(std::make_pair(cardName, std::unique_ptr<Card>(new Card(cardStr, cardTou, cardClk, cardEffect, cardSpriteName))));
+        cardTou = card->FirstChildElement("toughness")->QueryIntText(&iOutInt);
+        cardClk = card->FirstChildElement("clock")->QueryIntText(&iOutInt);
+        cardEffect = card->FirstChildElement("effect")->GetText();
+        cardSpriteName = card->FirstChildElement("image")->GetText();
+        cardz.insert(std::make_pair(cardName, std::unique_ptr<Card>(new Card(cardStr, cardTou, cardClk, cardEffect, cardSpriteName))));
     }
 }
 
